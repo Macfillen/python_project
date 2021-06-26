@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Вход</title>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100i,200,300,500" rel="stylesheet">
+    <style>
+    	html {
+    		font-family: 'Roboto', sans-serif;
+    		font-weight: 100;
+    	}
+
+    	input {
+    		font-family: 'Roboto', sans-serif;
+    		font-weight: 100;
+    		font-size: 14px;
+    	}
+
+    	.container {
+    		margin-top: 120px; 
+    		display: flex;
+    		align-items: center;
+    		justify-content: space-between;
+    		flex-direction: column;
+    		height: 400px;
+    	}
+
+    	.enter {
+    		display: flex;
+    		align-items: center;
+    		justify-content: space-between;
+    		flex-direction: column;
+			width: 250px;
+			height: 300px;
+			border-radius: 3px;
+			box-shadow: 0px 0px 5px 2px rgba(0, 0, 0, 0.25);
+    	}
+		
+		.enter-welcome {
+			border-radius: 3px 3px 0px 0px;
+			width: 250px;
+			height: 50px;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			border-bottom: solid thin lightgrey;
+		}
+
+		.enter-form {
+			height: 195px;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: space-between;
+		}
+		
+		.enter-inputs {
+			width: 250px;
+			height: 90px;
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			flex-direction: column;
+		}
+
+		.enter-input {
+			background-color: white;
+      		width: 180px;
+      		border-radius: 3px;
+      		border: solid thin lightgrey;
+      		padding: 10px;
+		}
+
+		.enter-input:focus {
+			border: solid thin grey;
+		}
+
+		.enter-button {
+			border-radius: 0px 0px 3px 3px;
+			width: 250px;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			height: 50px;
+			color: white;
+			cursor: pointer;
+			background-color: green;
+			border: none;
+			font-size: 16px;
+		}
+
+		.enter-button:hover {
+			background-color: darkgreen;
+		}
+
+		.registration {
+			border-radius: 3px;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			cursor: pointer;
+			width: 250px;
+			height: 50px;
+			box-shadow: 0px 0px 5px 2px rgba(0, 0, 0, 0.25);
+			text-decoration: none;
+			color: black;
+		}
+		.reg-error {
+			background-color: red;
+		}
+
+		.reg-error:hover {
+			background-color: #C80000;
+		}
+    </style>
+</head>
+<body>
+	{% load static %}
+	<div class="container">
+		<div class="enter">
+			<div class="enter-welcome">
+				Вход
+			</div>
+			<form class="enter-form" method="post" action="{% url 'login' %}">
+				{% csrf_token %}
+				<div class="enter-inputs">
+					<input name="username" class="enter-input" type="text" placeholder='Логин:' required="true">
+					<input name="password" class="enter-input" type="password" placeholder='Пароль:' required="true">
+				</div>
+				{% if form.errors %}
+                <input class="enter-button reg-error" type="submit" value="Неправильный логин/пароль"/>
+                {% else %}
+                <input class="enter-button" type="submit" value="Принять"/>
+				{% endif %}
+			</form>
+		</div>
+		<a href="/profile/reg" class="registration">
+			Зарегистрироваться
+		</a>
+	</div>
+	{% include "footer.html" %}
+</body>
+</html>

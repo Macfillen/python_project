@@ -1,0 +1,236 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Редактирование профиля</title>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100i,200,300,500" rel="stylesheet">
+    <style>
+    	html {
+    		font-family: 'Roboto', sans-serif;
+    		font-weight: 100;
+    	}
+
+    	input {
+    		font-family: 'Roboto', sans-serif;
+    		font-weight: 100;
+    		font-size: 16px;
+    	}
+
+    	body {
+    		height: 700px;
+    	}
+
+    	.edit-container {
+    		margin-top: 100px;
+    		display: flex;
+    		justify-content: center;
+    	}
+
+    	.edit-card {
+    		display: flex;
+    		align-items: center;
+    		justify-content: space-between;
+    		flex-direction: column;
+			width: 400px;
+			border-radius: 3px;
+			box-shadow: 0px 0px 5px 2px rgba(0, 0, 0, 0.25);
+    	}
+
+		.edit-welcome {
+			width: 400px;
+			height: 60px;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			border-bottom: solid thin lightgrey;
+		}
+		
+		.edit-edit {
+			cursor: pointer;
+			border: solid grey thin;
+			padding: 5px;
+			border-radius: 3px;
+		}
+
+		.edit-button {
+			border-radius: 0px 0px 3px 3px;
+			width: 400px;
+			display: none;
+			align-items: center;
+			justify-content: center;
+			height: 50px;
+			color: white;
+			cursor: pointer;
+			background-color: green;
+			border: none;
+			font-size: 16px;
+		}
+
+		.edit-main {
+			width: 400px;
+			height: 440px;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+		}
+
+		.edit-info {
+			padding-top: 10px;
+			width: 400px;
+			height: 380px;
+			display: flex;
+			flex-direction: column;
+			justify-content: space-between;
+			align-items: center;
+		}
+
+		.edit-button:hover {
+			background-color: darkgreen;
+		}
+
+		.edit-edit:hover {
+			background-color: lightgrey;
+		}
+
+		.edit-line {
+			height: 30px;
+			width: 300px;
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			margin: 5px;
+		}
+
+		.edit-inputs {
+			display: flex;
+			flex-direction: column;
+			padding-bottom: 10px;
+			justify-content: center;
+			height: 340px;
+		}
+
+		.edit-input {
+			width: 150px;
+			display: none;
+			background-color: white;
+      		border-radius: 3px;
+      		border: solid thin lightgrey;
+      		padding: 5px;
+		}
+
+		.edit-input:focus {
+			border: solid thin grey;
+		}
+
+		.to_main {
+		    position: absolute;
+			right: 10px;
+    		top: 10px;
+    		display: flex;
+    		align-items: center;
+    		justify-content: center;
+    		color: white;
+    		padding: 10px 20px 10px 20px;
+    		background-color: green;
+    		text-decoration: none;
+    		width: 110px;
+    		cursor: pointer;
+    		border-radius: 3px;
+    		box-shadow: 0px 0px 5px 2px rgba(0, 0, 0, 0.25);
+    	}
+
+    	.to_main:hover {
+    		background-color: darkgreen;
+    	}
+    </style>
+</head>
+<body>
+	{% load static %}
+    <a href="/" class='to_main'>
+        Назад
+    </a>
+	<div class="edit-container">
+		<form class="edit-card" method="post" action="">
+			{% csrf_token %}
+			<div class="edit-welcome">
+				<div>Профиль <b>{{ request.user.username }}</b> </div>
+			</div>
+			<div class="edit-main">
+				<div class="edit-info">
+					<div class="edit-edit" onclick="hide()">Редактировать</div>
+					<div class="edit-inputs">
+						<div class="edit-line">
+							Имя:
+							<div id="d1"> {{ request.user.first_name }} </div>
+							<input id="e1" class="edit-input" name="first_name" type="text" value='{{ request.user.first_name }}'>
+						</div>
+
+						<div class="edit-line">
+							Фамилия:
+							<div id="d2">{{ request.user.last_name }}</div>
+							<input id="e2" class="edit-input" name="last_name" type="text" value='{{ request.user.last_name }}'>
+						</div>
+
+						<div class="edit-line">
+							E-mail:
+							<div id="d3"> {{ request.user.email }}</div>
+							<input id="e3" class="edit-input" name="email" type="email" value='{{ request.user.email }}'>
+						</div>
+
+						<div class="edit-line">
+							Пароль:
+							<div id="d4">●●●●●●●●</div>
+							<input id="e4" class="edit-input" name="password" type="password">
+						</div>
+					</div>
+				</div>
+				<input id='i1' class="edit-button" type="submit" value="Сохранить"/>
+			</div>
+		</form>
+	</div>
+	{% include "footer.html" %}
+</body>
+<script>
+		var editFirstName = document.getElementById('e1');
+		var editSecondName = document.getElementById('e2');
+		var editEmailName = document.getElementById('e3');
+		var editPasswordName = document.getElementById('e4');
+
+		var dFirstName = document.getElementById('d1');
+		var dSecondName = document.getElementById('d2');
+		var dEmailName = document.getElementById('d3');
+		var dPasswordName = document.getElementById('d4');
+
+		var submitElem = document.getElementById('i1');
+
+
+		var h = true;
+	    function hide() {
+	    	h = !h
+	    	if (h) {
+	    		editFirstName.style.display = 'none';
+	    		dFirstName.style.display = 'block';
+	    		editSecondName.style.display = 'none';
+	    		dSecondName.style.display = 'block';
+	    		editEmailName.style.display = 'none';
+	    		dEmailName.style.display = 'block';
+	    		editPasswordName.style.display = 'none';
+	    		dPasswordName.style.display = 'block';
+	    		submitElem.style.display = 'none'
+	    	} else {
+	    		editFirstName.style.display = 'block';
+	    		dFirstName.style.display = 'none';
+	    		editSecondName.style.display = 'block';
+	    		dSecondName.style.display = 'none';
+	    		editEmailName.style.display = 'block';
+	    		dEmailName.style.display = 'none';
+	    		editPasswordName.style.display = 'block';
+	    		dPasswordName.style.display = 'none';
+	    		submitElem.style.display = 'flex'
+	    	}
+	    };
+	</script>
+</html>

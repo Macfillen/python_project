@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+<head>
+	{% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Главная страница</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.22/vue.min.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100i,200,300,500" rel="stylesheet">
+	{%include "style.html"%}
+</head>
+<body>
+	<div class="votes">
+		<div class='votes-menu'>
+			Список голосований
+			<div>
+				<a href=only-mine class="votes-create">Фильтр: {{tit}}</a>
+				<a href="/vote-create" class="votes-create">
+					Создать голосование
+				</a>
+			</div>
+		</div>
+		<div class='sp-votes'>
+			{% for item in polls %}
+			<div class='vote'>
+				<div class="vote-up">
+					<a href="vote-process/{{item.id}}" class="vote-ssilka">{{ item.id }}</a>
+					<div>
+						<a class="vote-icon" href="/add_claim/{{item.id}}">
+							<img src="{% static '/report_bold.svg' %}" width="20px" alt="">
+						</a>
+						{%if user == item.author or user.is_superuser%}
+						<a class="vote-icon" class="vote-icon" href="/vote/edit/{{item.id}}">
+							<img src="{% static '/edit.svg' %}" width="20px" alt="">
+						</a>
+						<a class="vote-icon" v-show="del_confirm" href="/vote/delete/{{item.id}}">
+							<img src="{% static '/delete.svg' %}" width="20px" alt="">
+						</a>
+						{%endif%}
+					</div>
+				</div>
+				<a href="vote-process/{{item.id}}" class="vote-ssilka"><b>{{ item.title }}</b></a>
+				<a href="vote-process/{{item.id}}" class="vote-ssilka">{{ item.description }}</a>
+				<div class="vote-date">{{ item.date }}</div>
+			</div>
+			{% endfor %}
+		</div>
+	</div>
+	<div>
+		<div class='profile-container'>
+			<div class="profile" onclick="hide1()">
+				Профиль
+				<img id='prf' src="{% static '/down.svg' %}" alt="">
+			</div>
+			<div id='pm' class="profile-menu">
+				<a href="/profile" class='profile-edit'>
+				    Просмотр
+				</a>
+				<a href="/profile/history" class='profile-history'>
+					История
+				</a>
+				<a href="/claims" class='profile-history'>
+					Мои жалобы
+				</a>
+				<a href="/profile/logout" class='profile-quit'>
+					Выйти
+				</a>
+			</div>
+		</div>
+	</div>
+	{% include "footer.html" %}
+	
+	<script>
+		var menuElem = document.getElementById('pm');
+		var downprofileElem = document.getElementById('prf');
+
+		var hidden1 = true;
+	    function hide1() {
+	    	hidden1 = !hidden1
+	    	if (hidden1) {
+	    		menuElem.style.display = 'none';
+	    		downprofileElem.style.transform = 'rotate(0deg)'		 
+	    	} else {
+	    		menuElem.style.display = 'block';
+	    		downprofileElem.style.transform = 'rotate(180deg)'		
+	    	}
+	    };	
+	</script>
+</body>
+</html>

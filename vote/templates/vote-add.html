@@ -1,0 +1,223 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>{{action}}</title>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100i,200,300,500" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.2/vue.min.js"></script>
+    <style>
+    	html {
+    		font-family: 'Roboto', sans-serif;
+    		font-weight: 100;
+    	}
+
+		input {
+			font-family: 'Roboto', sans-serif;
+    		font-weight: 100;
+    		font-size: 14px;
+		}
+
+    	.container {
+    		display: flex;
+    		flex-direction: column;
+    		justify-content: center;
+    		align-items: center;
+    	}
+
+    	.vote-main {
+    		margin-top: 100px;
+    		display: flex;
+    		align-items: center;
+    		justify-content: space-between;
+    		flex-direction: column;
+			width: 400px;
+			border-radius: 3px;
+			box-shadow: 0px 0px 5px 2px rgba(0, 0, 0, 0.25);
+    	}
+
+    	.vote-welcome {
+			border-radius: 3px 3px 0px 0px;
+			width: 400px;
+			height: 60px;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			border-bottom: solid thin lightgrey;
+		}
+
+		.vote-input {
+			background-color: white;
+        	width: 190px;
+        	border-radius: 3px;
+        	border: solid thin lightgrey;
+        	padding: 10px;
+		}
+
+		.vote-input:focus {
+			border: solid thin grey;
+		}
+
+		.vote-line {
+			margin: 10px;
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			font-size: 14px;
+			width: 380px;
+		}
+
+		.vote-answers {
+			width: 400px;
+			font-size: 14px;
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+			align-items: center;
+			border-top: lightgrey solid thin;
+			padding: 20px 0px 10px 0px;
+		}
+
+		.vote-line-label {
+			width: 190px;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+		}
+
+		.answer-button {
+			margin-top: 5px;
+			cursor: pointer;
+			width: 20px;
+			height: 20px;
+		}
+
+		.vote-button {
+			margin-top: 10px;
+			border-radius: 0px 0px 3px 3px;
+			width: 400px;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			height: 50px;
+			font-size: 16px;
+			color: white;
+			cursor: pointer;
+			background-color: steelblue;
+			border: none;
+		}
+
+		.vote-button:hover {
+			background-color: #3A6B94;
+		}
+
+		.to_index {
+		    position: absolute;
+			right: 0px;
+    		top: 0px;
+    		display: flex;
+    		align-items: center;
+    		justify-content: center;
+    		color: white;
+    		border-radius: 3px;
+    		padding: 10px 20px 10px 20px;
+    		background-color: green;
+    		text-decoration: none;
+    		width: 110px;
+    		cursor: pointer;
+    		box-shadow: 0px 0px 5px 2px rgba(0, 0, 0, 0.25);
+    	}
+
+    	.to_index:hover {
+    		background-color: darkgreen;
+    	}
+    </style>
+</head>
+<body>
+	{% load static %}
+	<div class="container" id="app">
+		<form class="vote-main" action="" method="post">
+            {% csrf_token %}
+            <div class="vote-welcome">{{action}}</div>
+            <div class="vote-line">
+                <div class="vote-line-label">{{form.title.label}}:</div> {{form.title}}
+            </div>
+            <div class="vote-line">
+                <div class="vote-line-label">{{form.description.label}}:</div> {{form.description}}
+            </div>
+            <div class="vote-answers">
+            	<div>Ответы:</div>
+            	<div>
+            		<img class="answer-button" @click="addAnswer" src="{% static '/add.svg' %}" alt="addanswer">
+            		<img class="answer-button" @click="removeAnswer" src="{% static '/remove.svg' %}" alt="delanswer">
+            	</div>
+            </div>
+            <div>
+	            <div v-show="vote_count >= 1" class="vote-line">
+	                <div class="vote-line-label">{{form.custom_0.label}}:</div> {{form.custom_0}}
+	            </div>
+	            <div v-show="vote_count >= 2" class="vote-line">
+	                <div class="vote-line-label">{{form.custom_1.label}}:</div> {{form.custom_1}}
+	            </div>
+	            <div v-show="vote_count >= 3" class="vote-line">
+	                <div class="vote-line-label">{{form.custom_2.label}}:</div> {{form.custom_2}}
+	            </div>
+	            <div v-show="vote_count >= 4" class="vote-line">
+	                <div class="vote-line-label">{{form.custom_3.label}}:</div> {{form.custom_3}}
+	            </div>
+	            <div v-show="vote_count >= 5" class="vote-line">
+	                <div class="vote-line-label">{{form.custom_4.label}}:</div> {{form.custom_4}}
+	            </div>
+	            <div v-show="vote_count >= 6"class="vote-line">
+	                <div class="vote-line-label">{{form.custom_5.label}}:</div> {{form.custom_5}}
+	            </div>
+	            <div v-show="vote_count >= 7"class="vote-line">
+	                <div class="vote-line-label">{{form.custom_6.label}}:</div> {{form.custom_6}}
+	            </div>
+	            <div v-show="vote_count >= 8" class="vote-line">
+	                <div class="vote-line-label">{{form.custom_7.label}}:</div> {{form.custom_7}}
+	            </div>
+	            <div v-show="vote_count >= 9" class="vote-line">
+	                <div class="vote-line-label">{{form.custom_8.label}}:</div> {{form.custom_8}}
+	            </div>
+	            <div v-show="vote_count >= 10" class="vote-line">
+	                <div class="vote-line-label">{{form.custom_9.label}}:</div> {{form.custom_9}}
+	            </div>
+	        </div>
+	        {% if action == "Создание голосования" %}
+			<div>{{form.multi.label}}{{form.multi}}</div>
+			{%endif%}
+        	<input class="vote-button" type="submit" value="Готово">
+    	</form>
+	</div>
+	<a class="to_index" href="/">Обратно</a>
+	<div>
+		{% include "footer.html" %}
+	</div>
+
+	<script>
+		var app = new Vue({
+			el: '#app',
+			delimiters: ['[[', ']]'],
+			data: {
+				vote_count: {{count_of_options}},
+			},
+			methods: {
+				addAnswer() {
+					if (this.vote_count < 10) {
+						this.vote_count += 1
+					}
+				},
+
+				removeAnswer() {
+					if (this.vote_count > 2) {
+						this.vote_count -= 1
+					}
+				}
+			},
+		})
+	</script>
+</body>
+</html>

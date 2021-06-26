@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>История профиля</title>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100i,200,300,500" rel="stylesheet">
+    {%include "style.html"%}
+</head>
+<body>
+    <div class="container">
+    	<div class="claim-main">
+    		<div class="claim-welcome">История профиля</div>
+	        <div class="claim-content">
+	        	{% for item in history %}
+	        	<div class="claim-item">
+	        		<div class="claim-line" style="font-size: smaller">
+	        			{{ item.date }} - {{item.time}}
+	        		</div>
+	        		<div class="claim-line">
+	        			{% if item.log_type == 1 %}
+	        			Создано голосование с ID {{ item.vote_id }}
+	        			{% elif item.log_type == 2 %}
+	        			Удалено голосование с ID {{ item.vote_id }}
+	        			{% elif item.log_type == 3 %}
+	        			Изменено голосование с ID {{ item.vote_id }}
+	        			{% elif item.log_type == 4 %}
+	        			Принятно участие в голосовании с ID {{ item.vote_id }}
+	        			{% elif item.log_type == 5 %}
+	        			Изменена информация в профиле
+	        			{% elif item.log_type == 6 %}
+	        			Создана жалоба на голосование с ID {{ item.vote_id }}
+	        			{% elif item.log_type == 7 %}
+	        			Добровольно отклонена жалоба на голосование с ID {{ item.vote_id }}
+	        			{% elif item.log_type == 8 %}
+	        			Обработана жалоба на голосование с ID {{ item.vote_id }}
+	        			{% endif %}
+	        		</div>
+	        	</div>
+                {% endfor %}
+	        </div>
+    	</div>
+    </div>
+    <a class="to_index" href="/">Обратно</a>
+    {% include "footer.html" %}
+</body>
+</html>

@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Голосование</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.22/vue.min.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100i,200,300,500" rel="stylesheet">
+    <style>
+        html {
+            font-family: 'Roboto', sans-serif;
+            font-weight: 100;
+        }
+
+        input {
+            font-family: 'Roboto', sans-serif;
+            font-weight: 100;
+            font-size: 14px;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .vote-main {
+            margin-top: 100px;
+            width: 420px;   
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+            border-radius: 3px;
+            box-shadow: 0px 0px 5px 2px rgba(0, 0, 0, 0.25);
+        }
+
+        .to_index {
+            position: absolute;
+            right: 10px;
+            top: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            border-radius: 3px;
+            padding: 10px 20px 10px 20px;
+            background-color: green;
+            text-decoration: none;
+            width: 110px;
+            cursor: pointer;
+            box-shadow: 0px 0px 5px 2px rgba(0, 0, 0, 0.25);
+        }
+
+        .vote-title {
+            border-bottom: lightgrey solid thin;
+            display: flex;
+            align-items: center;
+            width: 400px;
+            font-weight: 500;
+            justify-content: center;
+            padding: 20px 10px 20px 10px;
+        }
+
+        .vote-description {
+            border-bottom: lightgrey solid thin;
+            display: flex;
+            align-items: center;
+            width: 400px;
+            text-align: center;
+            justify-content: center;
+            padding: 20px 10px 20px 10px;
+        }
+
+        .vote-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-direction: column;
+        }
+
+        .vote-answers {
+        	display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        	width: 400px;
+            padding: 20px 10px 20px 10px;
+        }
+
+        .vote-button {
+            border-radius: 0px 0px 3px 3px;
+            width: 420px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 50px;
+            font-size: 16px;
+            color: white;
+            cursor: pointer;
+            background-color: steelblue;
+            text-decoration: none;
+        }
+
+        .vote-answer {
+        	background-color: lightgrey;
+        	border-radius: 3px;
+            width: 360px;
+            padding-right: 0px;
+            margin-top: 5px;
+            margin-bottom: 5px;
+        	display: flex;
+        	align-items: center;
+        	justify-content: space-between;
+        }
+
+        .vote-answer-alt {
+            background-color: lightgrey;
+            padding: 10px 20px 10px 20px;
+            border-radius: 0px 3px 3px 0px;
+        }
+
+        .vote-answer-count-0 {
+            width: calc(0%);
+            background-color: lightgrey;
+            overflow: visible;
+            padding: 10px 0px 10px 20px;
+            border-radius: 3px 0px 0px 3px;
+        }
+        
+        .vote-answer-count-10 {
+            width: calc(10% - 20px);
+            background-color: lightblue;
+            padding: 10px 0px 10px 20px;
+            border-radius: 3px 0px 0px 3px;
+        }
+        .vote-answer-count-20 {
+            width: calc(20% - 20px);
+            background-color: lightblue;
+            overflow: visible;
+            padding: 10px 0px 10px 20px;
+            border-radius: 3px 0px 0px 3px;
+        }
+        .vote-answer-count-30 {
+            overflow: visible;
+            width: calc(30% - 20px);
+            background-color: lightblue;
+            padding: 10px 0px 10px 20px;
+            border-radius: 3px 0px 0px 3px;
+        }
+        .vote-answer-count-40 {
+            overflow: visible;
+            width: calc(40% - 20px);
+            background-color: lightblue;
+            padding: 10px 0px 10px 20px;
+            border-radius: 3px 0px 0px 3px;
+        }
+        .vote-answer-count-50 {
+            width: calc(50% - 20px);
+            background-color: lightblue;
+            padding: 10px 0px 10px 20px;
+            border-radius: 3px 0px 0px 3px;
+        }
+        .vote-answer-count-60 {
+            width: calc(60% - 20px);
+            background-color: lightblue;
+            padding: 10px 0px 10px 20px;
+            border-radius: 3px 0px 0px 3px;
+        }
+        .vote-answer-count-70 {
+            width: calc(70% - 20px);
+            background-color: lightblue;
+            padding: 10px 0px 10px 20px;
+            border-radius: 3px 0px 0px 3px;
+        }
+
+        .vote-answer-count-80 {
+            width: calc(80% - 20px);
+            background-color: lightblue;
+            padding: 10px 0px 10px 20px;
+            border-radius: 3px 0px 0px 3px;
+        }
+        .vote-answer-count-90 {
+            width: calc(90% - 20px);
+            background-color: lightblue;
+            padding: 10px 0px 10px 20px;
+            border-radius: 3px 0px 0px 3px;
+        }
+
+        .vote-answer-count-100 {
+            width: calc(100% - 20px);
+            background-color: lightblue;
+            padding: 10px 0px 10px 20px;
+            border-radius: 3px 0px 0px 3px;
+        }
+
+        .vote-answer-count-100-alt {
+            background-color: steelblue;
+            padding: 10px 20px 10px 20px;
+            border-radius: 0px 3px 3px 0px;
+        }
+
+        .vote-answer-yes {
+            background-color: steelblue;
+        }
+
+        .vote-button:hover {
+            background-color: #3A6B94;
+        }
+
+        .to_index:hover {
+            background-color: darkgreen;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="vote-main">
+            <div class="vote-title">{{title}}</div>
+            <div class="vote-description">{{description}}</div>
+            <div class="vote-content">
+                <div class="vote-answers">
+                	<!-- массив пар должен быть тут -->
+                    {%for id, count, name in options_count%}
+                        {%if id in chosen%}
+                        <div class="vote-answer">
+                            {% if count == 0 %}
+                            <div class="vote-answer-count-0 vote-answer-yes">{{name}}</div>
+                            <div class="vote-answer-alt">{{count}}%</div>
+                            {% elif count <= 10 %}
+                            <div class="vote-answer-count-10 vote-answer-yes">{{name}}</div>
+                            <div class="vote-answer-alt">{{count}}%</div>
+                            {% elif count <= 20 %}
+                            <div class="vote-answer-count-20 vote-answer-yes">{{name}}</div>
+                            <div class="vote-answer-alt">{{count}}%</div>
+                            {% elif count <= 30 %}
+                            <div class="vote-answer-count-30 vote-answer-yes">{{name}}</div>
+                            <div class="vote-answer-alt">{{count}}%</div>
+                            {% elif count <= 40 %}
+                            <div class="vote-answer-count-40 vote-answer-yes">{{name}}</div>
+                            <div class="vote-answer-alt">{{count}}%</div>
+                            {% elif count <= 50 %}
+                            <div class="vote-answer-count-50 vote-answer-yes">{{name}}</div>
+                            <div class="vote-answer-alt">{{count}}%</div>
+                            {% elif count <= 60 %}
+                            <div class="vote-answer-count-60 vote-answer-yes">{{name}}</div>
+                            <div class="vote-answer-alt">{{count}}%</div>
+                            {% elif count <= 70 %}
+                            <div class="vote-answer-count-70 vote-answer-yes">{{name}}</div>
+                            <div class="vote-answer-alt">{{count}}%</div>
+                            {% elif count <= 80 %}
+                            <div class="vote-answer-count-80 vote-answer-yes">{{name}}</div>
+                            <div class="vote-answer-alt">{{count}}%</div>
+                            {% elif count <= 90 %}
+                            <div class="vote-answer-count-90 vote-answer-yes">{{name}}</div>
+                            <div class="vote-answer-alt">{{count}}%</div>
+                            {% elif count == 100 %}
+                            <div class="vote-answer-count-100 vote-answer-yes">{{name}}</div>
+                            <div class="vote-answer-count-100-alt">{{count}}%</div>
+                            {%endif%}
+                        </div>
+                        {%else%}
+                        <div class="vote-answer">
+                            {% if count == 0 %}
+                            <div class="vote-answer-count-0">{{name}}</div>
+                            <div class="vote-answer-alt">{{count}}%</div>
+                            {% elif count <= 10 %}
+                            <div class="vote-answer-count-10">{{name}}</div>
+                            <div class="vote-answer-alt">{{count}}%</div>
+                            {% elif count <= 20 %}
+                            <div class="vote-answer-count-20">{{name}}</div>
+                            <div class="vote-answer-alt">{{count}}%</div>
+                            {% elif count <= 30 %}
+                            <div class="vote-answer-count-30">{{name}}</div>
+                            <div class="vote-answer-alt">{{count}}%</div>
+                            {% elif count <= 40 %}
+                            <div class="vote-answer-count-40">{{name}}</div>
+                            <div class="vote-answer-alt">{{count}}%</div>
+                            {% elif count <= 50 %}
+                            <div class="vote-answer-count-50">{{name}}</div>
+                            <div class="vote-answer-alt">{{count}}%</div>
+                            {% elif count <= 60 %}
+                            <div class="vote-answer-count-60">{{name}}</div>
+                            <div class="vote-answer-alt">{{count}}%</div>
+                            {% elif count <= 70 %}
+                            <div class="vote-answer-count-70">{{name}}</div>
+                            <div class="vote-answer-alt">{{count}}%</div>
+                            {% elif count <= 80 %}
+                            <div class="vote-answer-count-80">{{name}}</div>
+                            <div class="vote-answer-alt">{{count}}%</div>
+                            {% elif count <= 90 %}
+                            <div class="vote-answer-count-90">{{name}}</div>
+                            <div class="vote-answer-alt">{{count}}%</div>
+                            {% elif count == 100 %}
+                            <div class="vote-answer-count-100">{{name}}</div>
+                            <div class="vote-answer-count-100-alt">{{count}}%</div>
+                            {%endif%}
+                        </div>
+                        {%endif%}
+                    {%endfor%}
+                </div>
+                <div style="margin-bottom: 25px">Количество всех голосов: {{all}}</div>
+            </div>
+            <a href="{{id}}/revote " class="vote-button">Переголосовать</a>
+        </div>
+    </div>
+    <a class="to_index" href="/">Обратно</a>
+    <footer>
+        {% include "footer.html" %}
+    </footer>
+</body>
+</html>

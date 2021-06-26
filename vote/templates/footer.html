@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.22/vue.min.js"></script>
+	<style>
+		.super-footer {
+			position: absolute;
+			bottom: -150px;
+			width: 98vw;
+			height: 100px;
+			display: flex;
+			align-items: center;
+			justify-content: space-around;
+		}
+
+		.super-footer-item {
+			width: 50%;
+			margin: 10px;
+			height: 80px;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			border-radius: 3px;
+			box-shadow: 0px 0px 5px 2px rgba(0, 0, 0, 0.25);
+			cursor: pointer;
+		}
+	</style>
+</head>
+<body>	
+	<footer id="appf" class="super-footer">
+		<div @click="change_vid1" v-show="vid1" class="super-footer-item">О сайте</div>
+		<div @click="change_vid1" v-show="!vid1" class="super-footer-item">
+			Сайт позволяет пользователям создавать, редактировать и удалять голосования, <br>
+			а также создавать жалобы, которые впоследствии обрабатываются администрацией. <br>
+			На сайте полностью функционирует система персонального доступа.
+		</div>
+		<div @click="change_vid2" v-show="vid2" class="super-footer-item">О создателях</div>
+		<div @click="change_vid2" v-show="!vid2" class="super-footer-item">
+			Авторы проекта: Андрей Филин, Максим Бессонов
+		</div>
+	</footer>
+	<script>
+		var appf = new Vue({
+			el: '#appf',
+			delimiters: ['[[', ']]'],
+			data: {
+				vid1: true,
+				vid2: true
+			},
+			methods: {
+				change_vid1() {
+					this.vid1 = !this.vid1
+				},
+
+				change_vid2() {
+					this.vid2 = !this.vid2
+				}
+			},
+		})
+	</script>
+</body>
+</html>
