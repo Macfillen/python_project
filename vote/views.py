@@ -8,7 +8,7 @@ from django.shortcuts import render, redirect
 from django.http import Http404
 
 
-query_dictionary = (('/', 'Мои'), ('only-mine', 'Все'))
+ahah = (('/', 'Мои'), ('only-mine', 'Все'))
 key = 1
 @login_required
 def index_page(request):
@@ -18,8 +18,8 @@ def index_page(request):
     else:
         context['polls'] = list(models.Poll.objects.all())
     context['user'] = request.user
-    context['to'] = query_dictionary[key][0]
-    context['tit'] = query_dictionary[key][1]
+    context['to'] = ahah[key][0]
+    context['tit'] = ahah[key][1]
     return render(request, 'index.html', context)
 
 @login_required
@@ -154,7 +154,7 @@ def vote_process(request, id):
         for _, it, _ in options_count:
             context['all'] += it
         for id, count, name in options_count:
-            context['options_count'].append((id, round(count / context['all']*100, 2), name))
+            context['options_count'].append((id, round(count / poll.count*100, 2), name))
         return render(request, 'vote-process-ready.html', context)
 #Если еще не голосовал
     if request.method == 'GET':
@@ -173,6 +173,8 @@ def vote_process(request, id):
             for it in chosen:
                 vote = models.Vote(author = request.user, option = models.Option.objects.get(id = it), poll = poll)
                 vote.save()
+            poll.count = poll.count+1
+            poll.save()
             options_count = [(id, len(list(models.Vote.objects.filter(option = id))), name) for id, name in options]
             context['chosen'] = [i.option.id for i in (models.Vote.objects.filter(poll=poll, author=request.user))]
             context['options_count'] = []
@@ -180,7 +182,7 @@ def vote_process(request, id):
             for _, it, _ in options_count:
                 context['all'] += it
             for id, count, name in options_count:
-                context['options_count'].append((id, round(count/context['all']*100, 2), name))
+                context['options_count'].append((id, round(count/poll.count*100, 2), name))
             history = models.History(date=datetime.datetime.now().date(), time=datetime.datetime.now().time(),
                                      user=request.user, log_type=4, vote_id=poll.id)
             history.save()
@@ -192,6 +194,8 @@ def vote_process(request, id):
 
 def revote_process(request, id):
     poll = models.Poll.objects.get(id=id)
+    poll.count-=1
+    poll.save()
     models.Vote.objects.filter(poll = poll, author = request.user).delete()
     return redirect('/vote-process/'+str(id))
 
