@@ -207,11 +207,6 @@ def revote_process(request, id):
 
 
 @login_required
-def necessary(request):
-    return render(request, 'work.html')
-
-
-@login_required
 def vote_add_page(request):
     context = {'count_of_options': 2, 'action': 'Создание голосования'}
     if request.method == 'GET':
