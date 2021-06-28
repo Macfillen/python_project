@@ -52,7 +52,6 @@ class Claim(models.Model):
     voteid = models.IntegerField()
 
 
-
 class History(models.Model):
     date = models.DateField()
     time = models.TimeField()

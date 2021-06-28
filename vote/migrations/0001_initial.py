@@ -6,7 +6,6 @@ import django.db.models.deletion
 
 
 class Migration(migrations.Migration):
-
     initial = True
 
     dependencies = [
@@ -19,11 +18,17 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('date', models.DateField()),
-                ('reason', models.CharField(choices=[('religion', 'Оскорбление чувств верующих'), ('info', 'Попытка выведать личную информацию'), ('suicide', 'Призыв к суициду'), ('azino', 'Реклама азартных игр'), ('cp', 'Детская порнография'), ('gov', 'Оскорбление власти'), ('other', 'Другое')], max_length=10)),
+                ('reason', models.CharField(choices=[('religion', 'Оскорбление чувств верующих'),
+                                                     ('info', 'Попытка выведать личную информацию'),
+                                                     ('suicide', 'Призыв к суициду'),
+                                                     ('azino', 'Реклама азартных игр'), ('cp', 'Детская порнография'),
+                                                     ('gov', 'Оскорбление власти'),
+                                                     ('other', 'Другое')], max_length=10)),
                 ('comment', models.CharField(max_length=500)),
                 ('status', models.IntegerField(default=1)),
                 ('voteid', models.IntegerField()),
-                ('user', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
+                ('user', models.ForeignKey(blank=True, null=True,
+                                           on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
             ],
         ),
         migrations.CreateModel(
